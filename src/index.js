@@ -19,7 +19,7 @@ const resolveValues = (value, key, obj) => {
 };
 
 const mergeContext = (srcObject, newObject) => {
-  const mergedContext = merge({ ...srcObject }, newObject);
+  const mergedContext = merge({ ...srcObject }, { ...newObject });
   return mapValues(mergedContext, resolveValues);
 };
 
