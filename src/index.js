@@ -1,13 +1,13 @@
 import React from "react";
 import merge from "lodash/merge";
 import mapValues from "lodash/mapValues";
-import isObject from "lodash/isObject";
+import isPlainObject from "lodash/isPlainObject";
 import isString from "lodash/isString";
 
 const context = React.createContext({});
 
 const resolveValues = (value, key, obj) => {
-  if (isObject(value)) {
+  if (isPlainObject(value)) {
     return mapValues(value, resolveValues);
   }
 
@@ -19,7 +19,7 @@ const resolveValues = (value, key, obj) => {
 };
 
 const mergeContext = (srcObject, newObject) => {
-  const mergedContext = merge(srcObject, newObject);
+  const mergedContext = merge({ ...srcObject }, newObject);
   return mapValues(mergedContext, resolveValues);
 };
 
