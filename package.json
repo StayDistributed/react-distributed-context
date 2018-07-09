@@ -29,11 +29,11 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
-  "author": "",
+  "author": "Michele Salvini",
   "homepage": "",
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/StayDistributed/react-distributed-context",
   "keywords": [
-    "react-component"
+    "react-context react-extends-context"
   ]
 }
