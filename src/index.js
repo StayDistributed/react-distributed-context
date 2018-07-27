@@ -1,26 +1,52 @@
 import React from "react";
-import merge from "lodash/merge";
-import mapValues from "lodash/mapValues";
-import isPlainObject from "lodash/isPlainObject";
-import isString from "lodash/isString";
 
 const context = React.createContext({});
 
-const resolveValues = (value, key, obj) => {
-  if (isPlainObject(value)) {
-    return mapValues(value, resolveValues);
-  }
+const isString = v => typeof v === "string" || v instanceof String;
 
-  if (isString(value) && /^@/.test(value)) {
-    return obj[value.replace(/^@/, "")] || value;
-  }
+const isPlainObject = o =>
+  !!o &&
+  typeof o === "object" &&
+  Object.prototype.toString.call(o) === "[object Object]";
 
-  return value;
+const deepMergeObject = (source, target) => {
+  const merged = { ...source };
+
+  Object.keys(target).forEach(key => {
+    if (isPlainObject(target[key])) {
+      merged[key] = deepMergeObject(source[key] || {}, target[key]);
+      return;
+    }
+
+    merged[key] = target[key];
+  });
+
+  return merged;
+};
+
+const deepMapObject = object => {
+  const mapped = {};
+
+  Object.keys(object).forEach(key => {
+    if (isPlainObject(object[key])) {
+      mapped[key] = deepMapObject(object[key]);
+      return;
+    }
+
+    if (isString(object[key]) && /^@/.test(object[key])) {
+      mapped[key] = object[object[key].replace(/^@/, "")] || object[key];
+      return;
+    }
+
+    mapped[key] = object[key];
+  });
+
+  return mapped;
 };
 
 const mergeContext = (srcObject, newObject) => {
-  const mergedContext = merge({ ...srcObject }, { ...newObject });
-  return mapValues(mergedContext, resolveValues);
+  const mergedContext = deepMergeObject({ ...srcObject }, { ...newObject });
+  return deepMapObject(mergedContext);
 };
 
 export const Provider = props => (
