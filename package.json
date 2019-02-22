@@ -1,6 +1,6 @@
 {
   "name": "react-distributed-context",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "react-distributed-context React component",
   "main": "lib/index.js",
   "module": "es/index.js",
