@@ -34,7 +34,7 @@ const deepMapObject = object => {
     }
 
     if (isString(object[key]) && /^@/.test(object[key])) {
-      mapped[key] = object[object[key].replace(/^@/, "")] || object[key];
+      mapped[key] = object[object[key].replace(/^@/, "")];
       return;
     }
 

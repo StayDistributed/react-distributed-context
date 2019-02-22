@@ -21,6 +21,18 @@ describe("Component", () => {
     });
   });
 
+  it("displays a static content inside Provider", () => {
+    render(
+      <Provider>
+        <Consumer>{value => "Hello World"}</Consumer>
+      </Provider>,
+      node,
+      () => {
+        expect(node.innerHTML).toContain("Hello World");
+      }
+    );
+  });
+
   it("displays merged context values", () => {
     render(
       <div>
@@ -104,7 +116,8 @@ describe("Component", () => {
               );
             }}
           </Consumer>
-        </Provider>,
+        </Provider>
+        ,
       </div>,
       node,
       () => {
